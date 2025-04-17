@@ -1,2 +1,32 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Crear la matriz de correlación con los valores de Spearman extraídos de la tabla proporcionada
+data = {
+    "Peso al nacer": [1.000, 0.786, 0.867, 0.955, 0.120],
+    "Diámetro biparietal (mm)": [0.786, 1.000, 0.708, 0.771, 0.049],
+    "Diámetro abdominal (mm)": [0.867, 0.708, 1.000, 0.838, 0.092],
+    "Semanas de gestación": [0.955, 0.771, 0.838, 1.000, 0.108],
+    "Hora del nacimiento": [0.120, 0.049, 0.092, 0.108, 1.000]
+}
+
+# Convertir a DataFrame y ajustar índices
+variables = [
+    "Peso al nacer",
+    "Diámetro biparietal (mm)",
+    "Diámetro abdominal (mm)",
+    "Semanas de gestación",
+    "Hora del nacimiento"
+]
+
+df_corr = pd.DataFrame(data, index=variables, columns=variables)
+
+# Crear el heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(df_corr, annot=True, fmt=".3f", cmap="YlGnBu", square=True, cbar_kws={'label': 'ρ de Spearman'})
+plt.title("Matriz de calor de correlaciones (Spearman)")
+plt.xticks(rotation=45, ha='right')
+plt.yticks(rotation=0)
+plt.tight_layout()
+plt.show()
