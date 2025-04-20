@@ -31,8 +31,9 @@ plt.yticks(rotation=0)
 plt.tight_layout()
 plt.show()
 
-#MATRICES DE CONFUSIÓN LDA
-#GRUPO DE ENTRENAMIENTO
+# Matrices de confusión LDA
+# Grupo de entrenamiento
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -54,7 +55,8 @@ plt.xlabel("Etiqueta Predicha")
 plt.tight_layout()
 plt.show()
 
-#GRUPO DE VALIDACIÓN
+# Grupo de validación
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -78,7 +80,8 @@ plt.xlabel("Predicho")
 plt.tight_layout()
 plt.show()
 
->>GRAFICO DE BARRAS EJERCICIO LDA
+# Grafico de barras LDA coeficientes
+
 import matplotlib.pyplot as plt
 # Variables y coeficientes LDA estandarizados del grupo de entrenamiento
 variables = [
