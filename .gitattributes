@@ -30,3 +30,74 @@ plt.xticks(rotation=45, ha='right')
 plt.yticks(rotation=0)
 plt.tight_layout()
 plt.show()
+
+#MATRICES DE CONFUSIÓN LDA
+#GRUPO DE ENTRENAMIENTO
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+# Datos de la matriz de confusión para el grupo de validación
+conf_matrix_val = pd.DataFrame(
+    [[122, 31],
+     [27, 46]],
+    columns=["Predicción: No diabetes", "Predicción: Diabetes"],
+    index=["Real: No diabetes", "Real: Diabetes"]
+)
+
+# Crear el mapa de calor
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix_val, annot=True, fmt="d", cmap="Blues")
+plt.title("Matriz de Confusión - Grupo de Validación")
+plt.ylabel("Etiqueta Real")
+plt.xlabel("Etiqueta Predicha")
+plt.tight_layout()
+plt.show()
+
+#GRUPO DE VALIDACIÓN
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+# Datos de la matriz de confusión del grupo de validación
+# Filas: reales / Columnas: predichas
+conf_matrix_val = np.array([[118, 35],  # No diabetes: 118 verdaderos negativos, 35 falsos positivos
+                            [23, 50]])  # Diabetes: 23 falsos negativos, 50 verdaderos positivos
+
+# Crear el DataFrame para graficar
+df_cm_val = pd.DataFrame(conf_matrix_val, index=["No diabetes (real)", "Diabetes (real)"],
+                         columns=["No diabetes (predicho)", "Diabetes (predicho)"])
+
+# Graficar la matriz de confusión como mapa de calor
+plt.figure(figsize=(6, 4))
+sns.heatmap(df_cm_val, annot=True, fmt='d', cmap='Blues')
+plt.title("Matriz de Confusión - Grupo de Validación")
+plt.ylabel("Real")
+plt.xlabel("Predicho")
+plt.tight_layout()
+plt.show()
+
+>>GRAFICO DE BARRAS EJERCICIO LDA
+import matplotlib.pyplot as plt
+# Variables y coeficientes LDA estandarizados del grupo de entrenamiento
+variables = [
+    "Glucosa plasmática en ayunas",
+    "Índice de masa corporal",
+    "Insulina sérica (UI/ml)",
+    "Edad",
+    "Función genética de diabetes",
+    "Nº de embarazos previos"
+]
+coeficientes = [0.791, 0.442, -0.178, 0.064, 0.233, 0.321]
+
+# Crear gráfico de barras
+plt.figure(figsize=(10, 6))
+bars = plt.barh(variables, coeficientes)
+plt.xlabel("Coeficiente estandarizado")
+plt.title("Importancia de las variables en la función discriminante (LDA)")
+plt.grid(axis="x", linestyle="--", alpha=0.7)
+plt.axvline(x=0, color='black', linewidth=0.8)
+plt.tight_layout()
+plt.gca().invert_yaxis()
+plt.show()
