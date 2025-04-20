@@ -38,69 +38,125 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
-# Datos de la matriz de confusión para el grupo de validación
-conf_matrix_val = pd.DataFrame(
-    [[122, 31],
-     [27, 46]],
-    columns=["Predicción: No diabetes", "Predicción: Diabetes"],
-    index=["Real: No diabetes", "Real: Diabetes"]
+# Matriz de confusión (datos con presión arterial incluida - original)
+conf_matrix = pd.DataFrame(
+    [[299, 77],
+     [54, 140]],
+    index=["No diabetes (real)", "Diabetes (real)"],
+    columns=["No diabetes (predicho)", "Diabetes (predicho)"]
 )
 
-# Crear el mapa de calor
-plt.figure(figsize=(8, 6))
-sns.heatmap(conf_matrix_val, annot=True, fmt="d", cmap="Blues")
-plt.title("Matriz de Confusión - Grupo de Validación")
-plt.ylabel("Etiqueta Real")
-plt.xlabel("Etiqueta Predicha")
+# Crear el gráfico de matriz de confusión
+plt.figure(figsize=(6, 4))
+sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues")
+plt.title("Matriz de confusión del análisis discriminante (grupo entrenamiento)")
+plt.ylabel("Valor real")
+plt.xlabel("Valor predicho")
 plt.tight_layout()
 plt.show()
+
 
 # Grupo de validación
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import pandas as pd
 
-# Datos de la matriz de confusión del grupo de validación
-# Filas: reales / Columnas: predichas
-conf_matrix_val = np.array([[118, 35],  # No diabetes: 118 verdaderos negativos, 35 falsos positivos
-                            [23, 50]])  # Diabetes: 23 falsos negativos, 50 verdaderos positivos
+# Matriz de confusión del grupo de validación (correcta)
+conf_matrix = np.array([[91, 33],
+                        [24, 50]])
 
-# Crear el DataFrame para graficar
-df_cm_val = pd.DataFrame(conf_matrix_val, index=["No diabetes (real)", "Diabetes (real)"],
-                         columns=["No diabetes (predicho)", "Diabetes (predicho)"])
-
-# Graficar la matriz de confusión como mapa de calor
-plt.figure(figsize=(6, 4))
-sns.heatmap(df_cm_val, annot=True, fmt='d', cmap='Blues')
-plt.title("Matriz de Confusión - Grupo de Validación")
-plt.ylabel("Real")
-plt.xlabel("Predicho")
+# Crear el gráfico de matriz de calor
+plt.figure(figsize=(5, 4))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False,
+            xticklabels=['No diabetes', 'Diabetes'],
+            yticklabels=['No diabetes', 'Diabetes'])
+plt.xlabel('Predicción')
+plt.ylabel('Real')
+plt.title('Matriz de confusión - Grupo de validación (LDA)')
 plt.tight_layout()
 plt.show()
 
-# Grafico de barras LDA coeficientes
+# Grafico de barras
 
 import matplotlib.pyplot as plt
-# Variables y coeficientes LDA estandarizados del grupo de entrenamiento
-variables = [
-    "Glucosa plasmática en ayunas",
-    "Índice de masa corporal",
-    "Insulina sérica (UI/ml)",
-    "Edad",
-    "Función genética de diabetes",
-    "Nº de embarazos previos"
-]
-coeficientes = [0.791, 0.442, -0.178, 0.064, 0.233, 0.321]
+import numpy as np
+
+# Variables predictoras (coeficientes simulados para ilustración)
+variables = ['Diámetro biparietal', 'Diámetro abdominal', 'Semanas de gestación', 'Tabaquismo materno']
+coefs = [16.242, 9.610, 147.485, -441.435]
 
 # Crear gráfico de barras
-plt.figure(figsize=(10, 6))
-bars = plt.barh(variables, coeficientes)
-plt.xlabel("Coeficiente estandarizado")
-plt.title("Importancia de las variables en la función discriminante (LDA)")
-plt.grid(axis="x", linestyle="--", alpha=0.7)
-plt.axvline(x=0, color='black', linewidth=0.8)
+fig, ax = plt.subplots()
+bars = ax.bar(variables, coefs)
+
+# Añadir etiquetas
+ax.set_ylabel('Coeficiente no estandarizado (B)')
+ax.set_title('Contribución de cada variable al peso al nacer en el modelo de regresión lineal múltiple')
+ax.axhline(0, color='black', linewidth=0.8)  # Línea horizontal en 0
+plt.xticks(rotation=45)
 plt.tight_layout()
-plt.gca().invert_yaxis()
+
+plt.show()
+
+# Matriz de confusión
+conf_matrix = pd.DataFrame(
+    [[338, 38],
+     [81, 113]],
+    index=["Real: No diabetes", "Real: Diabetes"],
+    columns=["Predicho: No diabetes", "Predicho: Diabetes"]
+)
+
+# Crear la matriz de calor
+plt.figure(figsize=(6, 4))
+sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues")
+plt.title("Matriz de confusión - Regresión logística final")
+plt.ylabel("Valor real")
+plt.xlabel("Valor predicho")
+plt.tight_layout()
+plt.show()
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+# Valores de la matriz de confusión
+conf_matrix = np.array([[7, 369],
+                        [0, 194]])
+
+# Etiquetas
+labels = ["No diabetes", "Diabetes"]
+df_cm = pd.DataFrame(conf_matrix, index=labels, columns=labels)
+
+# Crear matriz de calor
+plt.figure(figsize=(6, 4))
+sns.heatmap(df_cm, annot=True, fmt="d", cmap="Blues", cbar=False)
+plt.title("Matriz de confusión\n(umbral = 0.0112758)")
+plt.xlabel("Pronosticado")
+plt.ylabel("Observado")
+plt.tight_layout()
+plt.show()
+
+
+# Crear gráfico de barras con los coeficientes estandarizados
+coef_data = {
+    'Variable': [
+        'Glucosa plasmática en ayunas',
+        'Índice de masa corporal',
+        'Nº embarazos previos',
+        'Función genética de diabetes'
+    ],
+    'Coeficiente estandarizado': [0.750, 0.393, 0.369, 0.253]
+}
+
+df_coef = pd.DataFrame(coef_data)
+
+# Gráfico
+plt.figure(figsize=(8, 5))
+sns.barplot(x='Coeficiente estandarizado', y='Variable', data=df_coef)
+plt.title("Importancia relativa de las variables en el análisis discriminante")
+plt.xlabel("Coeficiente estandarizado")
+plt.ylabel("Variable")
+plt.tight_layout()
 plt.show()
